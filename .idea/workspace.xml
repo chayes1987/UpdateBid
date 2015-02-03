@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="167affb0-6763-4fba-a9be-0688222b4fe8" name="Default" comment="Added function for">
+    <list default="true" id="167affb0-6763-4fba-a9be-0688222b4fe8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/UpdateBid.py" afterPath="$PROJECT_DIR$/UpdateBid.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -32,9 +32,11 @@
       <file leaf-file-name="UpdateBid.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/UpdateBid.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.13485478" vertical-offset="456" max-vertical-offset="952">
-              <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-              <folding />
+            <state vertical-scroll-proportion="-0.5714286" vertical-offset="472" max-vertical-offset="1003">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding>
+                <element signature="e#22#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -317,7 +319,11 @@
       <created>1422973243599</created>
       <updated>1422973243599</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added function for publishing acknowledgement">
+      <created>1422973667556</created>
+      <updated>1422973667556</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -362,7 +368,8 @@
     </option>
     <MESSAGE value="Added library for zmq integration. Added method to subscribe to BidPlaced" />
     <MESSAGE value="Added function to publish an acknowledgment, set up address to publish acknowledgement to" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added function to publish an acknowledgment, set up address to publish acknowledgement to" />
+    <MESSAGE value="Added function for publishing acknowledgement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added function for publishing acknowledgement" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -372,15 +379,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="59" max-vertical-offset="629">
           <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-          <folding />
+          <folding>
+            <element signature="e#22#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/UpdateBid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.13485478" vertical-offset="456" max-vertical-offset="952">
-          <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-          <folding />
+        <state vertical-scroll-proportion="-0.5714286" vertical-offset="472" max-vertical-offset="1003">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

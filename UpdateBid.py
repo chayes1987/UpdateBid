@@ -1,11 +1,14 @@
 __author__ = 'Conor'
 
+from firebase import firebase
 import zmq
 
 publisher = None
 context = zmq.Context()
 SUBSCRIBER_ADDRESS = 'tcp://127.0.0.1:1111'
 PUBLISHER_ADDRESS = 'tcp://127.0.0.1:2001'
+FIREBASE_URL = 'https://auctionapp.firebaseio.com'
+my_firebase = firebase.FirebaseApplication(FIREBASE_URL, authentication=None)
 
 
 class UpdateBid:
