@@ -29,7 +29,7 @@ class UpdateBid:
         if None != publisher:
             message = 'ACK: ' + msg
             publisher.send_string(message)
-            print('Acknowledgement published...')
+            print('ACK SENT...')
 
     @staticmethod
     def update_bid(auction_id, bid):
@@ -45,7 +45,7 @@ class UpdateBid:
         subscriber = context.socket(zmq.SUB)
         subscriber.connect(SUBSCRIBER_ADDRESS)
         subscriber.setsockopt(zmq.SUBSCRIBE, str.encode('BidChanged'))
-        print('Subscribed to BidChanged event...')
+        print('SUB: BidChanged')
 
         while True:
             msg = subscriber.recv()
