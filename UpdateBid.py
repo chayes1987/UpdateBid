@@ -27,6 +27,16 @@ class UpdateBid:
             publisher.send_string(message)
             print('Acknowledgement published...')
 
+    @staticmethod
+    def update_bid(auction_id, bid):
+        try:
+            my_firebase.put('/auctions/' + auction_id, 'status', 'Running')
+            my_firebase.put('/auctions/' + auction_id, 'current_bid', bid)
+            print('Bid updated to ' + bid)
+        except Exception:
+            print('Could not perform update...')
+            pass
+
     def initialize_subscriber(self):
         subscriber = context.socket(zmq.SUB)
         subscriber.connect(SUBSCRIBER_ADDRESS)
@@ -40,6 +50,7 @@ class UpdateBid:
             self.publish_acknowledgement(m)
             auction_id = self.parse_message(m, '<id>', '</id>')
             bid = self.parse_message(m, '<params>', '</params>')
+            self.update_bid(auction_id, bid)
 
     @staticmethod
     def initialize_publisher():
