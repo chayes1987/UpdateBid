@@ -2,8 +2,10 @@ __author__ = 'Conor'
 
 import zmq
 
+publisher = None
 context = zmq.Context()
 SUBSCRIBER_ADDRESS = 'tcp://127.0.0.1:1111'
+PUBLISHER_ADDRESS = 'tcp://127.0.0.1:2001'
 
 
 class UpdateBid:
@@ -15,8 +17,7 @@ class UpdateBid:
         end_index = substring.index(end_tag)
         return substring[:end_index]
 
-    @staticmethod
-    def initialize_subscriber():
+    def initialize_subscriber(self):
         subscriber = context.socket(zmq.SUB)
         subscriber.connect(SUBSCRIBER_ADDRESS)
         subscriber.setsockopt(zmq.SUBSCRIBE, str.encode('BidChanged'))
@@ -26,7 +27,16 @@ class UpdateBid:
             msg = subscriber.recv()
             m = msg.decode(encoding='UTF-8')
             print(m + ' received...')
+            self.publish_acknowledgement(m)
+
+    @staticmethod
+    def initialize_publisher():
+        global publisher
+        publisher = context.socket(zmq.PUB)
+        publisher.bind(PUBLISHER_ADDRESS)
 
 if __name__ == '__main__':
     updater = UpdateBid()
+    updater.initialize_publisher()
+    print('Publisher initialized...')
     updater.initialize_subscriber()
