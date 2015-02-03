@@ -1,12 +1,16 @@
 __author__ = 'Conor'
 
+# The official documentation was consulted for all three 3rd party libraries used
+# ZeroMQ -> https://learning-0mq-with-pyzmq.readthedocs.org/en/latest/pyzmq/patterns/pubsub.html
+# Firebase -> https://pypi.python.org/pypi/python-firebase/1.2
+
 from firebase import firebase
 import zmq
 
 publisher = None
 context = zmq.Context()
 SUBSCRIBER_ADDRESS = 'tcp://127.0.0.1:1111'
-PUBLISHER_ADDRESS = 'tcp://127.0.0.1:2001'
+ACK_ADDRESS = 'tcp://127.0.0.1:2001'
 FIREBASE_URL = 'https://auctionapp.firebaseio.com'
 my_firebase = firebase.FirebaseApplication(FIREBASE_URL, authentication=None)
 
@@ -56,7 +60,7 @@ class UpdateBid:
     def initialize_publisher():
         global publisher
         publisher = context.socket(zmq.PUB)
-        publisher.bind(PUBLISHER_ADDRESS)
+        publisher.bind(ACK_ADDRESS)
 
 if __name__ == '__main__':
     updater = UpdateBid()
