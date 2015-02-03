@@ -17,6 +17,13 @@ class UpdateBid:
         end_index = substring.index(end_tag)
         return substring[:end_index]
 
+    @staticmethod
+    def publish_acknowledgement(msg):
+        if None != publisher:
+            message = 'ACK: ' + msg
+            publisher.send_string(message)
+            print('Acknowledgement published...')
+
     def initialize_subscriber(self):
         subscriber = context.socket(zmq.SUB)
         subscriber.connect(SUBSCRIBER_ADDRESS)
@@ -28,6 +35,8 @@ class UpdateBid:
             m = msg.decode(encoding='UTF-8')
             print(m + ' received...')
             self.publish_acknowledgement(m)
+            auction_id = self.parse_message(m, '<id>', '</id>')
+            bid = self.parse_message(m, '<params>', '</params>')
 
     @staticmethod
     def initialize_publisher():
