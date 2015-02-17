@@ -9,8 +9,8 @@ import zmq
 
 publisher = None
 context = zmq.Context()
-SUBSCRIBER_ADDRESS = 'tcp://127.0.0.1:1111'
-ACK_ADDRESS = 'tcp://127.0.0.1:2001'
+SUBSCRIBER_ADDRESS = 'tcp://172.31.32.23:1111'
+ACK_ADDRESS = 'tcp://*:2001'
 FIREBASE_URL = 'https://auctionapp.firebaseio.com'
 my_firebase = firebase.FirebaseApplication(FIREBASE_URL, authentication=None)
 
@@ -49,7 +49,7 @@ class UpdateBid:
 
         while True:
             msg = subscriber.recv()
-            m = msg.decode(encoding='UTF-8')
+            m = msg.decode()
             print(m + ' received...')
             self.publish_acknowledgement(m)
             auction_id = self.parse_message(m, '<id>', '</id>')
