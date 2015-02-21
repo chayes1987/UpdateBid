@@ -9,7 +9,7 @@ import zmq
 
 publisher = None
 context = zmq.Context()
-SUBSCRIBER_ADDRESS = 'tcp://172.31.32.23:2302'
+SUBSCRIBER_ADDRESS = 'tcp://172.31.32.23:2360'
 ACK_ADDRESS = 'tcp://*:2500'
 FIREBASE_URL = 'https://auctionapp.firebaseio.com'
 my_firebase = firebase.FirebaseApplication(FIREBASE_URL, authentication=None)
