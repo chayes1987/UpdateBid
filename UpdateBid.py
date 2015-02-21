@@ -50,7 +50,7 @@ class UpdateBid:
         while True:
             msg = subscriber.recv()
             m = msg.decode()
-            print(m + ' received...')
+            print('REC: ' + m)
             self.publish_acknowledgement(m)
             auction_id = self.parse_message(m, '<id>', '</id>')
             bid = self.parse_message(m, '<params>', '</params>')
