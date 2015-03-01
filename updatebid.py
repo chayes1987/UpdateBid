@@ -4,18 +4,18 @@ __author__ = 'Conor'
 # ZeroMQ -> https://learning-0mq-with-pyzmq.readthedocs.org/en/latest/pyzmq/patterns/pubsub.html
 # Firebase -> https://pypi.python.org/pypi/python-firebase/1.2
 
-from firebase import firebase
 import zmq
 
-publisher = None
 context = zmq.Context()
-SUBSCRIBER_ADDRESS = 'tcp://172.31.32.23:2360'
-ACK_ADDRESS = 'tcp://*:2500'
-FIREBASE_URL = 'https://auctionapp.firebaseio.com'
-my_firebase = firebase.FirebaseApplication(FIREBASE_URL, authentication=None)
+publisher = None
+my_firebase = None
 
 
 class UpdateBid:
+
+    def __init__(self, firebase):
+        global my_firebase
+        my_firebase = firebase
 
     @staticmethod
     def parse_message(message, start_tag, end_tag):
@@ -25,11 +25,17 @@ class UpdateBid:
         return substring[:end_index]
 
     @staticmethod
+    def initialize_publisher(ack_addr):
+        global publisher
+        publisher = context.socket(zmq.PUB)
+        publisher.bind(ack_addr)
+
+    @staticmethod
     def publish_acknowledgement(msg):
         if None != publisher:
-            message = 'ACK: ' + msg
+            message = 'ACK ' + msg
             publisher.send_string(message)
-            print('ACK SENT...')
+            print("PUB:" + message)
 
     @staticmethod
     def update_bid(auction_id, bid):
@@ -41,29 +47,21 @@ class UpdateBid:
             print('Could not perform update...')
             pass
 
-    def initialize_subscriber(self):
+    def initialize_subscriber(self, sub_addr, topic):
         subscriber = context.socket(zmq.SUB)
-        subscriber.connect(SUBSCRIBER_ADDRESS)
-        subscriber.setsockopt(zmq.SUBSCRIBE, str.encode('BidChanged'))
-        print('SUB: BidChanged')
+        subscriber.connect(sub_addr)
+        subscriber.setsockopt(zmq.SUBSCRIBE, str.encode(str(topic)))
+        print('SUB: ' + topic)
 
         while True:
-            msg = subscriber.recv()
-            m = msg.decode()
-            print('REC: ' + m)
-            self.publish_acknowledgement(m)
-            auction_id = self.parse_message(m, '<id>', '</id>')
-            bid = self.parse_message(m, '<params>', '</params>')
-            self.update_bid(auction_id, bid)
-
-    @staticmethod
-    def initialize_publisher():
-        global publisher
-        publisher = context.socket(zmq.PUB)
-        publisher.bind(ACK_ADDRESS)
-
-if __name__ == '__main__':
-    updater = UpdateBid()
-    updater.initialize_publisher()
-    print('Publisher initialized...')
-    updater.initialize_subscriber()
+            try:
+                msg = subscriber.recv()
+                m = msg.decode()
+                print('REC: ' + m)
+                self.publish_acknowledgement(m)
+                auction_id = self.parse_message(m, '<id>', '</id>')
+                bid = self.parse_message(m, '<params>', '</params>')
+                self.update_bid(auction_id, bid)
+            except (KeyboardInterrupt, SystemExit):
+                print('Application Stopped...')
+                raise SystemExit
