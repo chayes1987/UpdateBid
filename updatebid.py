@@ -35,7 +35,7 @@ class UpdateBid:
         if None != publisher:
             message = 'ACK ' + msg
             publisher.send_string(message)
-            print("PUB:" + message)
+            print('PUB: ' + message)
 
     @staticmethod
     def update_bid(auction_id, bid):
