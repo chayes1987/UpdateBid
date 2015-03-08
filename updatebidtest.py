@@ -1,9 +1,8 @@
-from main import read_config
-
 __author__ = 'Conor'
 
 import unittest
 from updatebid import UpdateBid
+from main import read_config
 from config import Config
 
 
