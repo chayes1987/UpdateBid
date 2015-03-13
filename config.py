@@ -10,3 +10,7 @@ class Config(Enum):
     SUB_ADDRESS = 1
     TOPIC = 2
     FIREBASE_URL = 3
+    HEARTBEAT_ADDR = 4
+    HEARTBEAT_TOPIC = 5
+    RESPONSE_TOPIC = 6
+    SERVICE_NAME = 7
