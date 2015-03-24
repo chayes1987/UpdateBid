@@ -19,8 +19,8 @@ class UpdateBidTests(unittest.TestCase):
     def test_read_config(self):
         config = read_config()
         self.assertNotEqual(None, config)
-        self.assertEqual('tcp://*:2500', config[Config.PUB_ADDRESS])
-        self.assertEqual('tcp://172.31.32.23:2360', config[Config.SUB_ADDRESS])
+        self.assertEqual('tcp://*:2500', config[Config.PUB_ADDR])
+        self.assertEqual('tcp://172.31.32.23:2360', config[Config.SUB_ADDR])
         self.assertEqual('BidChanged', config[Config.TOPIC])
         self.assertEqual('https://auctionapp.firebaseio.com', config[Config.FIREBASE_URL])
 

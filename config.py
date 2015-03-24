@@ -6,8 +6,8 @@ from enum import Enum
 
 
 class Config(Enum):
-    PUB_ADDRESS = 0
-    SUB_ADDRESS = 1
+    PUB_ADDR = 0
+    SUB_ADDR = 1
     TOPIC = 2
     FIREBASE_URL = 3
     HEARTBEAT_ADDR = 4

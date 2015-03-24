@@ -33,8 +33,8 @@ if __name__ == '__main__':
     if None != config:
         my_firebase = firebase.FirebaseApplication(config[Config.FIREBASE_URL], authentication=None)
         updater = UpdateBid(my_firebase)
-        updater.initialize_publisher(config[Config.PUB_ADDRESS])
+        updater.initialize_publisher(config[Config.PUB_ADDR])
         print('Publisher initialized...')
-        updater.initialize_subscribers(config[Config.SUB_ADDRESS], config[Config.TOPIC], config[Config.HEARTBEAT_ADDR],
-                                       config[Config.HEARTBEAT_TOPIC], config[Config.RESPONSE_TOPIC],
-                                       config[Config.SERVICE_NAME])
+        updater.initialize_heartbeat_subscriber(config[Config.HEARTBEAT_ADDR], config[Config.HEARTBEAT_TOPIC],
+                                                config[Config.RESPONSE_TOPIC], config[Config.SERVICE_NAME])
+        updater.subscribe_to_update_bid(config[Config.SUB_ADDR], config[Config.TOPIC])

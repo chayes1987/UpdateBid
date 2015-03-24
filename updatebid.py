@@ -34,9 +34,9 @@ class UpdateBid:
     @staticmethod
     def publish_acknowledgement(msg):
         if None != publisher:
-            message = 'ACK ' + msg
-            publisher.send_string(message)
-            print('PUB: ' + message)
+            bid_changed_acknowledgement = 'ACK ' + msg
+            publisher.send_string(bid_changed_acknowledgement)
+            print('PUB: ' + bid_changed_acknowledgement)
 
     @staticmethod
     def update_bid(auction_id, bid):
@@ -48,15 +48,13 @@ class UpdateBid:
             print('Could not perform update...')
             pass
 
-    def initialize_subscribers(self, sub_adr, topic, heartbeat_addr, hb_topic, response_topic, service_name):
+    def initialize_heartbeat_subscriber(self, heartbeat_addr, hb_topic, response_topic, service_name):
         heartbeat_thread = threading.Thread(target=self.subscribe_to_heartbeat,
                                             kwargs={'heartbeat_addr': heartbeat_addr, 'heartbeat_topic': str(hb_topic),
                                                     'response_topic': response_topic, 'service_name': service_name},
                                             name='subscribe_to_heartbeat')
         heartbeat_thread.daemon = True
         heartbeat_thread.start()
-
-        self.subscribe_to_update_bid(sub_adr, topic)
 
     @staticmethod
     def subscribe_to_heartbeat(heartbeat_addr, heartbeat_topic, response_topic, service_name):
@@ -66,24 +64,24 @@ class UpdateBid:
 
         while True:
             print('REC: ' + heartbeat_subscriber.recv().decode())
-            message = response_topic + ' <params>' + service_name + '</params>'
-            publisher.send_string(message)
-            print('PUB: ' + message)
+            heartbeat_response = response_topic + ' <params>' + service_name + '</params>'
+            publisher.send_string(heartbeat_response)
+            print('PUB: ' + heartbeat_response)
 
-    def subscribe_to_update_bid(self, sub_adr, topic):
-        subscriber = context.socket(zmq.SUB)
-        subscriber.connect(sub_adr)
-        subscriber.setsockopt(zmq.SUBSCRIBE, str.encode(str(topic)))
+    def subscribe_to_update_bid(self, sub_addr, topic):
+        update_bid_subscriber = context.socket(zmq.SUB)
+        update_bid_subscriber.connect(sub_addr)
+        update_bid_subscriber.setsockopt(zmq.SUBSCRIBE, str.encode(str(topic)))
         print('SUB: ' + topic)
 
         while True:
             try:
-                msg = subscriber.recv()
-                m = msg.decode()
-                print('REC: ' + m)
-                self.publish_acknowledgement(m)
-                auction_id = self.parse_message(m, '<id>', '</id>')
-                bid = self.parse_message(m, '<params>', '</params>')
+                update_bid = update_bid_subscriber.recv()
+                update_bid_str = update_bid.decode()
+                print('REC: ' + update_bid_str)
+                self.publish_acknowledgement(update_bid_str)
+                auction_id = self.parse_message(update_bid_str, '<id>', '</id>')
+                bid = self.parse_message(update_bid_str, '<params>', '</params>')
                 self.update_bid(auction_id, bid)
             except (KeyboardInterrupt, SystemExit):
                 print('Application Stopped...')
