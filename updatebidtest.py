@@ -1,5 +1,8 @@
 __author__ = 'Conor'
 
+# Unit Testing -> https://docs.python.org/3/library/unittest.html
+# Coding Standards -> https://www.python.org/dev/peps/pep-0008/
+
 import unittest
 from updatebid import UpdateBid
 from main import read_config
@@ -7,8 +10,16 @@ from config import Config
 
 
 class UpdateBidTests(unittest.TestCase):
+    """
+    This class is responsible for testing some functions in UpdateBid
+
+    """
 
     def test_parse_message(self):
+        """
+        Tests the parse_message function
+        :return: Assertion results
+        """
         update_bid = UpdateBid(None)
         self.assertEqual("hello world", update_bid.parse_message('#hello world&', '#', '&'))
         self.assertEqual("hello", update_bid.parse_message('#hello&world&', '#', '&'))
@@ -17,6 +28,10 @@ class UpdateBidTests(unittest.TestCase):
         self.assertEqual("2000", update_bid.parse_message('<params>2000</params>', '<params>', '</params>'))
 
     def test_read_config(self):
+        """
+        Tests the read_config function
+        :return: Assertion results
+        """
         config = read_config()
         self.assertNotEqual(None, config)
         self.assertEqual('tcp://*:2500', config[Config.PUB_ADDR])

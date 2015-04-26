@@ -18,6 +18,7 @@ None
 - Connected to server instance using PuTTy using ec2-user@PublicDNS and .ppk keyfile for SSH Auth
 
 ## Application Setup Required
+
 - Installed gcc -> sudo yum install gcc-c++
 - Installed python-dev -> sudo yum install python-devel
 - Installed zmq binding - sudo easy_install pyzmq
@@ -27,5 +28,6 @@ None
 - Installed enum -> sudo easy_install enum
 
 - Running the service -> sudo python /home/ec2-user/UpdateBid/main.py
+- Testing the service -> sudo python /home/ec2-user/UpdateBid/updatebidtest.py
 
 - Service runs and works as expected
